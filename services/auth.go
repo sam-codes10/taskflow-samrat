@@ -32,7 +32,7 @@ func RegisterUser(payload models.UserRegister) (int, apihelpers.ApiResponse) {
 func LoginUser(payload models.UserLogin) (int, apihelpers.ApiResponse) {
 	var res models.UserAuthRes
 	allowed, err := db.LoginUser(payload)
-	if err != nil {
+	if err != nil && err.Error() != "invalid credentials" {
 		return apihelpers.ReturnInternalServerErrorFromService("internal server error " + err.Error())
 	}
 	if !allowed {

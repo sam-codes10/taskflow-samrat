@@ -10,6 +10,15 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// @Tags auth 
+// @Description User Registration
+// @Accept json
+// @Produce json
+// @Param payload body models.UserRegister true "User Registration Payload"
+// @Success 200 {object} apihelpers.ApiResponse
+// @Failure 400 {object} apihelpers.ApiResponse
+// @Failure 500 {object} apihelpers.ApiResponse
+// @Router /auth/register [post]
 func Register(c *gin.Context) {
 	var payload models.UserRegister
 	reqHeader := c.MustGet("reqHeader").(models.RequestHeader)
@@ -32,6 +41,15 @@ func Register(c *gin.Context) {
 	apihelpers.CustomResponse(c, code, apiRes, apiName)
 }
 
+// @Tags auth 
+// @Description User Login
+// @Accept json
+// @Produce json
+// @Param payload body models.UserLogin true "User Login Payload"
+// @Success 200 {object} apihelpers.ApiResponse
+// @Failure 400 {object} apihelpers.ApiResponse
+// @Failure 500 {object} apihelpers.ApiResponse
+// @Router /auth/login [post]
 func Login(c *gin.Context) {
 	var payload models.UserLogin
 	reqHeader := c.MustGet("reqHeader").(models.RequestHeader)

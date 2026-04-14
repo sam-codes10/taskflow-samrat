@@ -1,6 +1,7 @@
 package db
 
 import (
+	"errors"
 	"taskflow-samrat/models"
 	"taskflow-samrat/resources"
 
@@ -29,7 +30,7 @@ func LoginUser(payload models.UserLogin) (bool, error) {
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(password), []byte(payload.Password))
 	if err != nil {
-		return false, err
+		return false, errors.New("invalid credentials")
 	}
 	return true, nil
 }

@@ -1,0 +1,3 @@
+-- +goose Up
+ALTER TABLE projects 
+ADD COLUMN updated_at TIMESTAMP NOT NULL DEFAULT NOW();
