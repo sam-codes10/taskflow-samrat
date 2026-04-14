@@ -1,1 +1,42 @@
 package services
+
+import (
+	apihelpers "taskflow-samrat/apiRes"
+	"taskflow-samrat/db"
+	"taskflow-samrat/middleware"
+	"taskflow-samrat/models"
+
+	"github.com/lib/pq"
+)
+
+func RegisterUser(payload models.UserRegister) (int, apihelpers.ApiResponse) {
+	var res models.UserAuthRes
+	dbRes, err := db.RegisterUser(payload)
+	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			if pqErr.Code == "23505" {
+				return apihelpers.ReturnConflictRequestFromService("email already exists")
+			}
+		}
+		return apihelpers.ReturnInternalServerErrorFromService("internal server error")
+	}
+	res.ID = dbRes.ID
+	res.Email = dbRes.Email
+	res.Token, err = middleware.GenerateJWT(dbRes)
+	if err != nil {
+		return apihelpers.ReturnInternalServerErrorFromService("internal server error " + err.Error())
+	}
+	return apihelpers.ReturnSuccessResponseFromService("user registered successfully", res)
+}
+
+func LoginUser(payload models.UserLogin) (int, apihelpers.ApiResponse) {
+	var res models.UserAuthRes
+	allowed, err := db.LoginUser(payload)
+	if err != nil {
+		return apihelpers.ReturnInternalServerErrorFromService("internal server error " + err.Error())
+	}
+	if !allowed {
+		return apihelpers.ReturnUnauthorizedRequestFromService("invalid credentials")
+	}
+	return apihelpers.ReturnSuccessResponseFromService("user logged in successfully", res)
+}

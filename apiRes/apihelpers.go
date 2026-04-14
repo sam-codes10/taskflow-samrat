@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 type ApiResponse struct {
@@ -20,7 +21,15 @@ func ReturnInternalServerErrorFromService(message string) (int, ApiResponse) {
 	}
 }
 
-func ReturnSuccessResponse(message string, data interface{}) (int, ApiResponse) {
+func ReturnConflictRequestFromService(message string) (int, ApiResponse) {
+	return http.StatusConflict, ApiResponse{
+		Status:  false,
+		Message: message,
+		Data:    nil,
+	}
+}
+
+func ReturnSuccessResponseFromService(message string, data interface{}) (int, ApiResponse) {
 	return http.StatusOK, ApiResponse{
 		Status:  true,
 		Message: message,
@@ -50,4 +59,19 @@ func SendSuccessResponseFromController(c *gin.Context, message string, data inte
 		Message: message,
 		Data:    data,
 	})
+}
+
+func ReturnUnauthorizedRequestFromService(message string) (int, ApiResponse) {
+	return http.StatusUnauthorized, ApiResponse{
+		Status:  false,
+		Message: message,
+		Data:    nil,
+	}
+}
+
+func CustomResponse(c *gin.Context, code int, data interface{}, apiName string) {
+	// log optionalParams
+	logrus.Info("API call completed : ", apiName, " | code: ", code, " | data: ", data)
+	// send json res
+	c.JSON(code, data)
 }
