@@ -66,7 +66,7 @@ func GetProjectById(c *gin.Context) {
 // @Success 200 {object} apihelpers.ApiResponse
 // @Failure 400 {object} apihelpers.ApiResponse
 // @Failure 500 {object} apihelpers.ApiResponse
-// @Router /projects/:projectId [put]
+// @Router /projects/:projectId [patch]
 func UpdateProjectById(c *gin.Context) {
 	projectId := c.Param("projectId")
 	var payload models.UpdateProjectReq
@@ -77,7 +77,7 @@ func UpdateProjectById(c *gin.Context) {
 	}
 
 	statusCode, response := services.UpdateProjectById(projectId, payload)
-	apiName := "/projects/:projectId [PUT]"
+	apiName := "/projects/:projectId [PATCH]"
 	apihelpers.CustomResponse(c, statusCode, response, apiName)
 }
 

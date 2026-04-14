@@ -27,7 +27,7 @@ func InitRouters() *gin.Engine {
 		projects.POST("/", controllers.CreateProject)
 		projects.GET("/", controllers.GetAllProjects)
 		projects.GET("/:projectId", controllers.GetProjectById)
-		projects.PUT("/:projectId", controllers.UpdateProjectById)
+		projects.PATCH("/:projectId", controllers.UpdateProjectById)
 		projects.DELETE("/:projectId", controllers.DeleteProjectById)
 	}
 

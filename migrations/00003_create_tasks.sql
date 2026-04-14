@@ -33,3 +33,8 @@ CREATE TABLE tasks (
 CREATE INDEX idx_tasks_project_id ON tasks(project_id);
 CREATE INDEX idx_tasks_assignee_id ON tasks(assignee_id);
 CREATE INDEX idx_tasks_status ON tasks(status);
+
+-- +goose Down
+DROP TABLE IF EXISTS tasks;
+DROP TYPE IF EXISTS task_priority;
+DROP TYPE IF EXISTS task_status;

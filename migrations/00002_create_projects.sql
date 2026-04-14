@@ -11,3 +11,6 @@ CREATE TABLE projects (
         REFERENCES users(id)
         ON DELETE CASCADE
 );
+
+-- +goose Down
+DROP TABLE IF EXISTS projects;

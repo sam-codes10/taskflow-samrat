@@ -8,3 +8,6 @@ CREATE TABLE users (
     password TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+-- +goose Down
+DROP TABLE IF EXISTS users;

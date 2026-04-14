@@ -6,6 +6,8 @@ import (
 	"taskflow-samrat/routers"
 
 	"github.com/joho/godotenv"
+
+	_ "taskflow-samrat/docs"
 )
 
 func main() {
@@ -25,6 +27,4 @@ func main() {
 	r := routers.InitRouters()
 
 	r.Run(":8080")
-	
-	
 }

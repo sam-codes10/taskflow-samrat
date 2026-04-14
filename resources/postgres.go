@@ -4,9 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 	"time"
-
-	
 
 	_ "github.com/lib/pq" // PostgreSQL driver
 )
@@ -14,9 +13,8 @@ import (
 var DB *sql.DB
 
 func ConnectPostgres() error {
-	
-	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		AppConfig.Config.Postgres.Host, AppConfig.Config.Postgres.Port, AppConfig.Config.Postgres.User, AppConfig.Config.Postgres.Password, AppConfig.Config.Postgres.DbName)
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
 
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {

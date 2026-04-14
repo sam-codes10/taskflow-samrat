@@ -10,7 +10,7 @@ import (
 
 func RegisterUser(payload models.UserRegister) (models.User, error) {
 	query := `INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id, name, email, created_at`
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(payload.Password), bcrypt.DefaultCost)
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(payload.Password), 12)
 	row := resources.DB.QueryRow(query, payload.Name, payload.Email, hashedPassword)
 	var user models.User
 	err := row.Scan(&user.ID, &user.Name, &user.Email, &user.CreatedAt)

@@ -97,36 +97,7 @@ func UpdateProjectById(projectId string, payload models.UpdateProjectReq) (model
 		return models.GetProjectRes{}, err
 	}
 
-	rows, err := resources.DB.Query(`
-		SELECT 
-			p.id, p.name, p.description, p.owner_id, p.created_at, p.updated_at,
-			t.id, t.title, t.description, t.status, t.priority, t.project_id, t.assignee_id, t.due_date, t.created_at, t.updated_at
-		FROM projects p
-		LEFT JOIN tasks t ON p.id = t.project_id
-		WHERE p.id = $1
-	`, projectId)
-	if err != nil {
-		return models.GetProjectRes{}, err
-	}
-	defer rows.Close()
-
-	var project models.GetProjectRes
-	var tasks []models.GetTaskRes
-
-	for rows.Next() {
-		var t models.GetTaskRes
-		err := rows.Scan(
-			&project.ID, &project.Name, &project.Description, &project.OwnerId, &project.CreatedAt, &project.UpdatedAt,
-			&t.ID, &t.Title, &t.Description, &t.Status, &t.Priority, &t.ProjectId, &t.AssigneeId, &t.DueDate, &t.CreatedAt, &t.UpdatedAt,
-		)
-		if err != nil {
-			return models.GetProjectRes{}, err
-		}
-		tasks = append(tasks, t)
-	}
-
-	project.Tasks = tasks
-	return project, nil
+	return GetProjectById(projectId)
 }
 
 func DeleteProjectById(projectId string) (bool, error) {

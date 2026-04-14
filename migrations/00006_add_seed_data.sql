@@ -42,3 +42,8 @@ VALUES
     'low',
     (SELECT id FROM projects WHERE name = 'Sample Project')
 );
+
+-- +goose Down
+DELETE FROM tasks WHERE project_id = (SELECT id FROM projects WHERE name = 'Sample Project' AND owner_id = (SELECT id FROM users WHERE email = 'test@example.com'));
+DELETE FROM projects WHERE name = 'Sample Project' AND owner_id = (SELECT id FROM users WHERE email = 'test@example.com');
+DELETE FROM users WHERE email = 'test@example.com';
