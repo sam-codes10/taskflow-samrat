@@ -44,9 +44,14 @@ func GetAllProjects(ownerId string) ([]models.GetAllProjectRes, error) {
 		}
 
 		if existing, ok := projectMap[p.ID]; ok {
-			existing.Tasks = append(existing.Tasks, t)
+			if t.ID != nil {
+				existing.Tasks = append(existing.Tasks, t)
+			}
 		} else {
-			p.Tasks = []models.GetTaskRes{t}
+			p.Tasks = []models.GetTaskRes{}
+			if t.ID != nil {
+				p.Tasks = append(p.Tasks, t)
+			}
 			projectMap[p.ID] = &p
 		}
 	}
@@ -85,9 +90,18 @@ func GetProjectById(projectId string, ownerId string) (models.GetProjectRes, err
 		if err != nil {
 			return models.GetProjectRes{}, err
 		}
-		tasks = append(tasks, task)
+		if task.ID != nil {
+			tasks = append(tasks, task)
+		}
 	}
 
+	if project.ID == "" {
+		return models.GetProjectRes{}, errors.New("project not found")
+	}
+
+	if tasks == nil {
+		tasks = []models.GetTaskRes{}
+	}
 	project.Tasks = tasks
 	return project, nil
 }

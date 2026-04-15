@@ -3,6 +3,7 @@ package middleware
 import (
 	"errors"
 	"os"
+	"strings"
 	apihelpers "taskflow-samrat/apiRes"
 	"taskflow-samrat/models"
 	"time"
@@ -27,10 +28,7 @@ func UserAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var reqH models.RequestHeader
 
-		cRH, _ := c.Get("reqH")
-		reqH, _ = (cRH).(models.RequestHeader)
-
-		token := reqH.Authorization
+		token := c.GetHeader("Authorization")
 		if token == "" {
 			code, res := apihelpers.ReturnUnauthorized("Authorization token is required")
 			c.JSON(code, res)
@@ -38,6 +36,7 @@ func UserAuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
+		token = strings.TrimPrefix(token, "Bearer ")
 		claims, err := parseJWT(token)
 		if err != nil {
 			code, res := apihelpers.ReturnUnauthorized("Invalid authorization token")

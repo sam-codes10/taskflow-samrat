@@ -38,14 +38,14 @@ type GetProjectRes struct {
 }
 
 type GetTaskRes struct {
-	ID          string    `json:"taskId"`
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	Status      string    `json:"status"`
-	Priority    string    `json:"priority"`
-	ProjectId   string    `json:"projectId"`
-	AssigneeId  string    `json:"assigneeId"`
-	DueDate     time.Time `json:"dueDate"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
+	ID          *string    `json:"taskId"`
+	Title       *string    `json:"title"`
+	Description *string    `json:"description"`
+	Status      *string    `json:"status"`
+	Priority    *string    `json:"priority"`
+	ProjectId   *string    `json:"projectId"`
+	AssigneeId  *string    `json:"assigneeId"`
+	DueDate     *time.Time `json:"dueDate"`
+	CreatedAt   *time.Time `json:"createdAt"`
+	UpdatedAt   *time.Time `json:"updatedAt"`
 }

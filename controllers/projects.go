@@ -57,10 +57,11 @@ func GetAllProjects(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param Authorization header string true "Authorization Header"
+// @Param projectId path string true "Project Id"
 // @Success 200 {object} apihelpers.ApiResponse
 // @Failure 400 {object} apihelpers.ApiResponse
 // @Failure 500 {object} apihelpers.ApiResponse
-// @Router /projects/:projectId [get]
+// @Router /projects/{projectId} [get]
 func GetProjectById(c *gin.Context) {
 	cRH, _ := c.Get("reqH")
 	reqH := cRH.(models.RequestHeader)
@@ -72,13 +73,15 @@ func GetProjectById(c *gin.Context) {
 
 // @Tags projects
 // @Description Update Project By Id
-// @Accept json
-// @Produce json
+// @Accept application/json
+// @Produce application/json
 // @Param Authorization header string true "Authorization Header"
+// @Param projectId path string true "Project ID"
+// @Param body body models.UpdateProjectReq true "Update Project Payload"
 // @Success 200 {object} apihelpers.ApiResponse
 // @Failure 400 {object} apihelpers.ApiResponse
 // @Failure 500 {object} apihelpers.ApiResponse
-// @Router /projects/:projectId [patch]
+// @Router /projects/{projectId} [patch]
 func UpdateProjectById(c *gin.Context) {
 	cRH, _ := c.Get("reqH")
 	reqH := cRH.(models.RequestHeader)
@@ -100,10 +103,11 @@ func UpdateProjectById(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param Authorization header string true "Authorization Header"
+// @Param projectId path string true "Project Id"
 // @Success 200 {object} apihelpers.ApiResponse
 // @Failure 400 {object} apihelpers.ApiResponse
 // @Failure 500 {object} apihelpers.ApiResponse
-// @Router /projects/:projectId [delete]
+// @Router /projects/{projectId} [delete]
 func DeleteProjectById(c *gin.Context) {
 	cRH, _ := c.Get("reqH")
 	reqH := cRH.(models.RequestHeader)

@@ -24,8 +24,8 @@ func InitRouters() *gin.Engine {
 	projects := r.Group("/projects")
 	projects.Use(middleware.UserAuthMiddleware())
 	{
-		projects.POST("/", controllers.CreateProject)
-		projects.GET("/", controllers.GetAllProjects)
+		projects.POST("", controllers.CreateProject)
+		projects.GET("", controllers.GetAllProjects)
 		projects.GET("/:projectId", controllers.GetProjectById)
 		projects.PATCH("/:projectId", controllers.UpdateProjectById)
 		projects.DELETE("/:projectId", controllers.DeleteProjectById)

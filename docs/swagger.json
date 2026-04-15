@@ -217,7 +217,7 @@
                 }
             }
         },
-        "/projects/:projectId": {
+        "/projects/{projectId}": {
             "get": {
                 "description": "Get Project By Id",
                 "consumes": [
@@ -235,6 +235,13 @@
                         "description": "Authorization Header",
                         "name": "Authorization",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Project Id",
+                        "name": "projectId",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -277,6 +284,13 @@
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Project Id",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -318,6 +332,22 @@
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Project ID",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Project Payload",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateProjectReq"
+                        }
                     }
                 ],
                 "responses": {
@@ -342,7 +372,7 @@
                 }
             }
         },
-        "/projects/:projectId/tasks": {
+        "/projects/{projectId}/tasks": {
             "get": {
                 "description": "Get All Tasks By Project Id",
                 "consumes": [
@@ -423,6 +453,13 @@
                         "required": true
                     },
                     {
+                        "type": "string",
+                        "description": "Project ID",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Create Task Payload",
                         "name": "payload",
                         "in": "body",
@@ -454,7 +491,7 @@
                 }
             }
         },
-        "/tasks/:taskId": {
+        "/tasks/{taskId}": {
             "get": {
                 "description": "Get Task By Id",
                 "consumes": [
@@ -579,7 +616,7 @@
                     },
                     {
                         "description": "Update Task Payload",
-                        "name": "payload",
+                        "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -625,20 +662,25 @@
         },
         "models.CreateAndUpdateTaskReq": {
             "type": "object",
+            "required": [
+                "assigneeId",
+                "description",
+                "dueDate",
+                "priority",
+                "status",
+                "title"
+            ],
             "properties": {
-                "assignee_id": {
+                "assigneeId": {
                     "type": "string"
                 },
                 "description": {
                     "type": "string"
                 },
-                "due_date": {
+                "dueDate": {
                     "type": "string"
                 },
                 "priority": {
-                    "type": "string"
-                },
-                "projectId": {
                     "type": "string"
                 },
                 "status": {
@@ -650,6 +692,20 @@
             }
         },
         "models.CreateProjectReq": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateProjectReq": {
             "type": "object",
             "required": [
                 "name"

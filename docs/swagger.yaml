@@ -9,22 +9,36 @@ definitions:
     type: object
   models.CreateAndUpdateTaskReq:
     properties:
-      assignee_id:
+      assigneeId:
         type: string
       description:
         type: string
-      due_date:
+      dueDate:
         type: string
       priority:
-        type: string
-      projectId:
         type: string
       status:
         type: string
       title:
         type: string
+    required:
+    - assigneeId
+    - description
+    - dueDate
+    - priority
+    - status
+    - title
     type: object
   models.CreateProjectReq:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  models.UpdateProjectReq:
     properties:
       description:
         type: string
@@ -201,7 +215,7 @@ paths:
             $ref: '#/definitions/apihelpers.ApiResponse'
       tags:
       - projects
-  /projects/:projectId:
+  /projects/{projectId}:
     delete:
       consumes:
       - application/json
@@ -210,6 +224,11 @@ paths:
       - description: Authorization Header
         in: header
         name: Authorization
+        required: true
+        type: string
+      - description: Project Id
+        in: path
+        name: projectId
         required: true
         type: string
       produces:
@@ -239,6 +258,11 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: Project Id
+        in: path
+        name: projectId
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -266,6 +290,17 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: Project ID
+        in: path
+        name: projectId
+        required: true
+        type: string
+      - description: Update Project Payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateProjectReq'
       produces:
       - application/json
       responses:
@@ -283,7 +318,7 @@ paths:
             $ref: '#/definitions/apihelpers.ApiResponse'
       tags:
       - projects
-  /projects/:projectId/tasks:
+  /projects/{projectId}/tasks:
     get:
       consumes:
       - application/json
@@ -334,6 +369,11 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: Project ID
+        in: path
+        name: projectId
+        required: true
+        type: string
       - description: Create Task Payload
         in: body
         name: payload
@@ -357,7 +397,7 @@ paths:
             $ref: '#/definitions/apihelpers.ApiResponse'
       tags:
       - task
-  /tasks/:taskId:
+  /tasks/{taskId}:
     delete:
       consumes:
       - application/json
@@ -439,7 +479,7 @@ paths:
         type: string
       - description: Update Task Payload
         in: body
-        name: payload
+        name: request
         required: true
         schema:
           $ref: '#/definitions/models.CreateAndUpdateTaskReq'

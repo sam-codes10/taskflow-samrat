@@ -228,7 +228,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/projects/:projectId": {
+        "/projects/{projectId}": {
             "get": {
                 "description": "Get Project By Id",
                 "consumes": [
@@ -246,6 +246,13 @@ const docTemplate = `{
                         "description": "Authorization Header",
                         "name": "Authorization",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Project Id",
+                        "name": "projectId",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -288,6 +295,13 @@ const docTemplate = `{
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Project Id",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -329,6 +343,22 @@ const docTemplate = `{
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Project ID",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Project Payload",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateProjectReq"
+                        }
                     }
                 ],
                 "responses": {
@@ -353,7 +383,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/projects/:projectId/tasks": {
+        "/projects/{projectId}/tasks": {
             "get": {
                 "description": "Get All Tasks By Project Id",
                 "consumes": [
@@ -434,6 +464,13 @@ const docTemplate = `{
                         "required": true
                     },
                     {
+                        "type": "string",
+                        "description": "Project ID",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Create Task Payload",
                         "name": "payload",
                         "in": "body",
@@ -465,7 +502,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/tasks/:taskId": {
+        "/tasks/{taskId}": {
             "get": {
                 "description": "Get Task By Id",
                 "consumes": [
@@ -590,7 +627,7 @@ const docTemplate = `{
                     },
                     {
                         "description": "Update Task Payload",
-                        "name": "payload",
+                        "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -636,20 +673,25 @@ const docTemplate = `{
         },
         "models.CreateAndUpdateTaskReq": {
             "type": "object",
+            "required": [
+                "assigneeId",
+                "description",
+                "dueDate",
+                "priority",
+                "status",
+                "title"
+            ],
             "properties": {
-                "assignee_id": {
+                "assigneeId": {
                     "type": "string"
                 },
                 "description": {
                     "type": "string"
                 },
-                "due_date": {
+                "dueDate": {
                     "type": "string"
                 },
                 "priority": {
-                    "type": "string"
-                },
-                "projectId": {
                     "type": "string"
                 },
                 "status": {
@@ -661,6 +703,20 @@ const docTemplate = `{
             }
         },
         "models.CreateProjectReq": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateProjectReq": {
             "type": "object",
             "required": [
                 "name"

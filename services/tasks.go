@@ -6,15 +6,15 @@ import (
 	"taskflow-samrat/models"
 )
 
-func CreateTaskUsingProjectId(task models.CreateAndUpdateTaskReq, ownerId string) (int, apihelpers.ApiResponse) {
-	valid, err := db.ValidateProjectIdAndOwnerId(task.ProjectId, ownerId)
+func CreateTaskUsingProjectId(task models.CreateAndUpdateTaskReq, projectId, ownerId string) (int, apihelpers.ApiResponse) {
+	valid, err := db.ValidateProjectIdAndOwnerId(projectId, ownerId)
 	if err != nil {
 		return apihelpers.ReturnInternalServerErrorFromService("unable to validate project id and owner id due to error " + err.Error())
 	}
 	if !valid {
 		return apihelpers.ReturnForbiddenRequestFromService("project id and owner id are not valid")
 	}
-	res, err := db.CreateTaskUsingProjectId(task)
+	res, err := db.CreateTaskUsingProjectId(task, projectId)
 	if err != nil {
 		return apihelpers.ReturnInternalServerErrorFromService("unable to create task due to error " + err.Error())
 	}

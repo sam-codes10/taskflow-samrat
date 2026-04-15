@@ -22,11 +22,10 @@ type UpdateProjectReq struct {
 }
 
 type CreateAndUpdateTaskReq struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Status      string `json:"status"`
-	Priority    string `json:"priority"`
-	ProjectId   string `json:"projectId"`
-	AssigneeId  string `json:"assignee_id"`
-	DueDate     string `json:"due_date"`
+	Title       string `json:"title" binding:"required"`
+	Description string `json:"description" binding:"required"`
+	Status      string `json:"status" binding:"required" oneOf:"todo,in_progress,done"`
+	Priority    string `json:"priority" binding:"required" oneOf:"low,medium,high"`
+	AssigneeId  string `json:"assigneeId" binding:"required"`
+	DueDate     string `json:"dueDate" binding:"required"`
 }

@@ -7,15 +7,21 @@ import (
 
 func GetAllTasksByProjectId(projectId, status, assignee_id string) ([]models.GetTaskRes, error) {
 	var res []models.GetTaskRes
-	baseQuery := `SELECT id,title,desciption,status,priority,project_id,assignee_id,due_date,created_at,updated_at FROM tasks WHERE project_id=$1`
+	baseQuery := `SELECT id,title,description,status,priority,project_id,assignee_id,due_date,created_at,updated_at FROM tasks WHERE project_id=$1 `
+	var args []interface{}
 	if status != "" && assignee_id != "" {
-		baseQuery += `AND status =$2 AND assignee_id=$3`
+		baseQuery += `AND status=$2 AND assignee_id=$3 `
+		args = []interface{}{projectId, status, assignee_id}
 	} else if status != "" {
-		baseQuery += `AND status =$2 `
+		baseQuery += `AND status=$2 `
+		args = []interface{}{projectId, status}
+	} else if assignee_id != "" {
+		baseQuery += `AND assignee_id=$2 `
+		args = []interface{}{projectId, assignee_id}
 	} else {
-		baseQuery += `AND assignee_id=$3`
+		args = []interface{}{projectId}
 	}
-	rows, err := resources.DB.Query(baseQuery, projectId, status, assignee_id)
+	rows, err := resources.DB.Query(baseQuery, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +38,7 @@ func GetAllTasksByProjectId(projectId, status, assignee_id string) ([]models.Get
 
 func GetTaskById(taskId string) (models.GetTaskRes, error) {
 	var res models.GetTaskRes
-	query := `SELECT id,title,desciption,status,priority,project_id,assignee_id,due_date,created_at,updated_at FROM tasks WHERE id=$1`
+	query := `SELECT id,title,description,status,priority,project_id,assignee_id,due_date,created_at,updated_at FROM tasks WHERE id=$1`
 	err := resources.DB.QueryRow(query, taskId).Scan(&res.ID, &res.Title, &res.Description, &res.Status, &res.Priority, &res.ProjectId, &res.AssigneeId, &res.DueDate, &res.CreatedAt, &res.UpdatedAt)
 	if err != nil {
 		return models.GetTaskRes{}, err
@@ -40,9 +46,9 @@ func GetTaskById(taskId string) (models.GetTaskRes, error) {
 	return res, nil
 }
 
-func CreateTaskUsingProjectId(task models.CreateAndUpdateTaskReq) (models.GetTaskRes, error) {
+func CreateTaskUsingProjectId(task models.CreateAndUpdateTaskReq, projectId string) (models.GetTaskRes, error) {
 	var res models.GetTaskRes
-	err := resources.DB.QueryRow("INSERT INTO tasks (title,desciption,status,priority,project_id,assignee_id,due_date) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id,title,desciption,status,priority,project_id,assignee_id,due_date,created_at,updated_at", task.Title, task.Description, task.Status, task.Priority, task.ProjectId, task.AssigneeId, task.DueDate).Scan(&res.ID, &res.Title, &res.Description, &res.Status, &res.Priority, &res.ProjectId, &res.AssigneeId, &res.DueDate, &res.CreatedAt, &res.UpdatedAt)
+	err := resources.DB.QueryRow("INSERT INTO tasks (title,description,status,priority,project_id,assignee_id,due_date) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id,title,description,status,priority,project_id,assignee_id,due_date,created_at,updated_at", task.Title, task.Description, task.Status, task.Priority, projectId, task.AssigneeId, task.DueDate).Scan(&res.ID, &res.Title, &res.Description, &res.Status, &res.Priority, &res.ProjectId, &res.AssigneeId, &res.DueDate, &res.CreatedAt, &res.UpdatedAt)
 	if err != nil {
 		return models.GetTaskRes{}, err
 	}
@@ -51,7 +57,7 @@ func CreateTaskUsingProjectId(task models.CreateAndUpdateTaskReq) (models.GetTas
 
 func UpdateTaskById(taskId string, task models.CreateAndUpdateTaskReq) (models.GetTaskRes, error) {
 	var res models.GetTaskRes
-	err := resources.DB.QueryRow("UPDATE tasks SET title=$1,desciption=$2,status=$3,priority=$4,project_id=$5,assignee_id=$6,due_date=$7 WHERE id=$8 RETURNING id,title,desciption,status,priority,project_id,assignee_id,due_date,created_at,updated_at", task.Title, task.Description, task.Status, task.Priority, task.ProjectId, task.AssigneeId, task.DueDate, taskId).Scan(&res.ID, &res.Title, &res.Description, &res.Status, &res.Priority, &res.ProjectId, &res.AssigneeId, &res.DueDate, &res.CreatedAt, &res.UpdatedAt)
+	err := resources.DB.QueryRow("UPDATE tasks SET title=$1,description=$2,status=$3,priority=$4,assignee_id=$5,due_date=$6 WHERE id=$7 RETURNING id,title,description,status,priority,project_id,assignee_id,due_date,created_at,updated_at", task.Title, task.Description, task.Status, task.Priority, task.AssigneeId, task.DueDate, taskId).Scan(&res.ID, &res.Title, &res.Description, &res.Status, &res.Priority, &res.ProjectId, &res.AssigneeId, &res.DueDate, &res.CreatedAt, &res.UpdatedAt)
 	if err != nil {
 		return models.GetTaskRes{}, err
 	}
@@ -60,7 +66,7 @@ func UpdateTaskById(taskId string, task models.CreateAndUpdateTaskReq) (models.G
 
 func DeleteTaskById(taskId string) (models.GetTaskRes, error) {
 	var res models.GetTaskRes
-	err := resources.DB.QueryRow("DELETE FROM tasks WHERE id=$1 RETURNING id,title,desciption,status,priority,project_id,assignee_id,due_date,created_at,updated_at", taskId).Scan(&res.ID, &res.Title, &res.Description, &res.Status, &res.Priority, &res.ProjectId, &res.AssigneeId, &res.DueDate, &res.CreatedAt, &res.UpdatedAt)
+	err := resources.DB.QueryRow("DELETE FROM tasks WHERE id=$1 RETURNING id,title,description,status,priority,project_id,assignee_id,due_date,created_at,updated_at", taskId).Scan(&res.ID, &res.Title, &res.Description, &res.Status, &res.Priority, &res.ProjectId, &res.AssigneeId, &res.DueDate, &res.CreatedAt, &res.UpdatedAt)
 	if err != nil {
 		return models.GetTaskRes{}, err
 	}
@@ -78,7 +84,7 @@ func ValidateProjectIdAndOwnerId(projectId, ownerId string) (bool, error) {
 
 func ValidateTaskIdAndOwnerId(taskId, ownerId string) (bool, error) {
 	var res bool
-	err := resources.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM tasks WHERE id=$1 AND owner_id=$2)", taskId, ownerId).Scan(&res)
+	err := resources.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.id=$1 AND p.owner_id=$2)", taskId, ownerId).Scan(&res)
 	if err != nil {
 		return false, err
 	}
