@@ -15,15 +15,15 @@ import (
 // @Accept json
 // @Produce json
 // @Param payload body models.UserRegister true "User Registration Payload"
-// @Success 200 {object} apihelpers.ApiResponse
+// @Success 200 {object} apihelpers.ApiResponse{data=models.UserAuthRes}
 // @Failure 400 {object} apihelpers.ApiResponse
 // @Failure 500 {object} apihelpers.ApiResponse
 // @Router /auth/register [post]
 func Register(c *gin.Context) {
 	var payload models.UserRegister
-	reqHeader := c.MustGet("reqHeader").(models.RequestHeader)
+	reqH := c.MustGet("reqH").(models.RequestHeader)
 	if err := c.ShouldBindJSON(&payload); err != nil {
-		logrus.Error("failed to decode payload : "+err.Error(), " | reqId: "+reqHeader.ReqId)
+		logrus.Error("failed to decode payload : "+err.Error(), " | reqId: "+reqH.ReqId)
 		apihelpers.SendBadRequestFromController(c, "failed to decode payload : "+err.Error())
 		return
 	}
@@ -31,7 +31,7 @@ func Register(c *gin.Context) {
 	validate := validator.New()
 	err := validate.Struct(payload)
 	if err != nil {
-		logrus.Error("failed to validate payload : "+err.Error(), " | reqId: "+reqHeader.ReqId)
+		logrus.Error("failed to validate payload : "+err.Error(), " | reqId: "+reqH.ReqId)
 		apihelpers.SendBadRequestFromController(c, "failed to validate payload : "+err.Error())
 		return
 	}
@@ -46,15 +46,16 @@ func Register(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param payload body models.UserLogin true "User Login Payload"
-// @Success 200 {object} apihelpers.ApiResponse
+// @Success 200 {object} apihelpers.ApiResponse{data=models.UserAuthRes}
 // @Failure 400 {object} apihelpers.ApiResponse
+// @Failure 409 {object} apihelpers.ApiResponse
 // @Failure 500 {object} apihelpers.ApiResponse
 // @Router /auth/login [post]
 func Login(c *gin.Context) {
 	var payload models.UserLogin
-	reqHeader := c.MustGet("reqHeader").(models.RequestHeader)
+	reqH := c.MustGet("reqH").(models.RequestHeader)
 	if err := c.ShouldBindJSON(&payload); err != nil {
-		logrus.Error("failed to decode payload : "+err.Error(), " | reqId: "+reqHeader.ReqId)
+		logrus.Error("failed to decode payload : "+err.Error(), " | reqId: "+reqH.ReqId)
 		apihelpers.SendBadRequestFromController(c, "failed to decode payload : "+err.Error())
 		return
 	}
@@ -62,7 +63,7 @@ func Login(c *gin.Context) {
 	validate := validator.New()
 	err := validate.Struct(payload)
 	if err != nil {
-		logrus.Error("failed to validate payload : "+err.Error(), " | reqId: "+reqHeader.ReqId)
+		logrus.Error("failed to validate payload : "+err.Error(), " | reqId: "+reqH.ReqId)
 		apihelpers.SendBadRequestFromController(c, "failed to validate payload : "+err.Error())
 		return
 	}

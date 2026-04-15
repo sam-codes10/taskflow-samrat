@@ -42,11 +42,29 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/apihelpers.ApiResponse"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/apihelpers.ApiResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.UserAuthRes"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/apihelpers.ApiResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
                         "schema": {
                             "$ref": "#/definitions/apihelpers.ApiResponse"
                         }
@@ -87,7 +105,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/apihelpers.ApiResponse"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/apihelpers.ApiResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.UserAuthRes"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
@@ -215,8 +245,8 @@ const docTemplate = `{
                     }
                 }
             },
-            "put": {
-                "description": "Update Project By Id",
+            "delete": {
+                "description": "Delete Project By Id",
                 "consumes": [
                     "application/json"
                 ],
@@ -247,8 +277,8 @@ const docTemplate = `{
                     }
                 }
             },
-            "delete": {
-                "description": "Delete Project By Id",
+            "patch": {
+                "description": "Update Project By Id",
                 "consumes": [
                     "application/json"
                 ],
@@ -297,7 +327,6 @@ const docTemplate = `{
         "models.CreateProjectReq": {
             "type": "object",
             "required": [
-                "description",
                 "name"
             ],
             "properties": {
@@ -305,6 +334,20 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UserAuthRes": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "userId": {
                     "type": "string"
                 }
             }

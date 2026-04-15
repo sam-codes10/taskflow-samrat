@@ -14,8 +14,16 @@ definitions:
       name:
         type: string
     required:
-    - description
     - name
+    type: object
+  models.UserAuthRes:
+    properties:
+      email:
+        type: string
+      token:
+        type: string
+      userId:
+        type: string
     type: object
   models.UserLogin:
     properties:
@@ -61,9 +69,18 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/apihelpers.ApiResponse'
+            allOf:
+            - $ref: '#/definitions/apihelpers.ApiResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.UserAuthRes'
+              type: object
         "400":
           description: Bad Request
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+        "409":
+          description: Conflict
           schema:
             $ref: '#/definitions/apihelpers.ApiResponse'
         "500":
@@ -90,7 +107,12 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/apihelpers.ApiResponse'
+            allOf:
+            - $ref: '#/definitions/apihelpers.ApiResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.UserAuthRes'
+              type: object
         "400":
           description: Bad Request
           schema:
@@ -194,7 +216,7 @@ paths:
             $ref: '#/definitions/apihelpers.ApiResponse'
       tags:
       - projects
-    put:
+    patch:
       consumes:
       - application/json
       description: Update Project By Id

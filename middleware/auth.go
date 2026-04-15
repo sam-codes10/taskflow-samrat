@@ -18,7 +18,7 @@ func NoAuthMiddleWare() gin.HandlerFunc {
 		reqHeader := models.RequestHeader{
 			ReqId: reqId,
 		}
-		c.Set("reqHeader", reqHeader)
+		c.Set("reqH", reqHeader)
 		c.Next()
 	}
 }

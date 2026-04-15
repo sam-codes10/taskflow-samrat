@@ -20,17 +20,17 @@ func RegisterUser(payload models.UserRegister) (models.User, error) {
 	return user, nil
 }
 
-func LoginUser(payload models.UserLogin) (bool, error) {
-	query := `SELECT password FROM users WHERE email = $1`
+func LoginUser(payload models.UserLogin) (bool, models.User, error) {
+	query := `SELECT id,name,email,password,created_at FROM users WHERE email = $1`
 	row := resources.DB.QueryRow(query, payload.Email)
-	var password string
-	err := row.Scan(&password)
+	var user models.User
+	err := row.Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.CreatedAt)
 	if err != nil {
-		return false, err
+		return false, user, err
 	}
-	err = bcrypt.CompareHashAndPassword([]byte(password), []byte(payload.Password))
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
 	if err != nil {
-		return false, errors.New("invalid credentials")
+		return false, user, errors.New("invalid credentials")
 	}
-	return true, nil
+	return true, user, nil
 }
