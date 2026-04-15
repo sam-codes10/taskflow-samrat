@@ -7,6 +7,23 @@ definitions:
       status:
         type: boolean
     type: object
+  models.CreateAndUpdateTaskReq:
+    properties:
+      assignee_id:
+        type: string
+      description:
+        type: string
+      due_date:
+        type: string
+      priority:
+        type: string
+      projectId:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+    type: object
   models.CreateProjectReq:
     properties:
       description:
@@ -237,4 +254,146 @@ paths:
             $ref: '#/definitions/apihelpers.ApiResponse'
       tags:
       - projects
+  /projects/:projectId/tasks:
+    get:
+      consumes:
+      - application/json
+      description: Get All Tasks By Project Id
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectId
+        required: true
+        type: string
+      - description: Status
+        in: query
+        name: status
+        type: string
+      - description: Assignee ID
+        in: query
+        name: assignee_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+    post:
+      consumes:
+      - application/json
+      description: Create Task using project id
+      parameters:
+      - description: Create Task Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateAndUpdateTaskReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+  /projects/:projectId/tasks/:taskId:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Task By Id
+      parameters:
+      - description: Task ID
+        in: path
+        name: taskId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+    get:
+      consumes:
+      - application/json
+      description: Get Task By Id
+      parameters:
+      - description: Task ID
+        in: path
+        name: taskId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+    patch:
+      consumes:
+      - application/json
+      description: Update Task By Id
+      parameters:
+      - description: Task ID
+        in: path
+        name: taskId
+        required: true
+        type: string
+      - description: Update Task Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateAndUpdateTaskReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apihelpers.ApiResponse'
 swagger: "2.0"

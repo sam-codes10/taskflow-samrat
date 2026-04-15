@@ -69,6 +69,14 @@ func ReturnUnauthorizedRequestFromService(message string) (int, ApiResponse) {
 	}
 }
 
+func ReturnForbiddenRequestFromService(message string) (int, ApiResponse) {
+	return http.StatusForbidden, ApiResponse{
+		Status:  false,
+		Message: message,
+		Data:    nil,
+	}
+}
+
 func ReturnUnauthorized(message string) (int, ApiResponse) {
 	return http.StatusUnauthorized, ApiResponse{
 		Status:  false,
@@ -84,8 +92,6 @@ func ReturnNotFoundRequestFromService(message string) (int, ApiResponse) {
 		Data:    nil,
 	}
 }
-
-
 
 func CustomResponse(c *gin.Context, code int, data interface{}, apiName string) {
 	// log optionalParams

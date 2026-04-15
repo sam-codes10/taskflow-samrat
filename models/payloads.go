@@ -20,3 +20,13 @@ type UpdateProjectReq struct {
 	Name        string `json:"name" binding:"required"`
 	Description string `json:"description"`
 }
+
+type CreateAndUpdateTaskReq struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Status      string `json:"status"`
+	Priority    string `json:"priority"`
+	ProjectId   string `json:"projectId"`
+	AssigneeId  string `json:"assignee_id"`
+	DueDate     string `json:"due_date"`
+}

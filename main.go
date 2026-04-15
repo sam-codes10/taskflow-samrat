@@ -16,8 +16,6 @@ func main() {
 		log.Printf("No .env file found, using environment variables: %v", err)
 	}
 
-	resources.InitConfig()
-
 	// Connect to database
 	if err := resources.ConnectPostgres(); err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
