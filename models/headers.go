@@ -5,6 +5,8 @@ import "github.com/golang-jwt/jwt/v5"
 type RequestHeader struct {
 	ReqId         string `json:"reqId"`
 	Authorization string `json:"Authorization"`
+	UserId        string `json:"user_id"`
+	Email         string `json:"email"`
 }
 
 type JwtClaims struct {

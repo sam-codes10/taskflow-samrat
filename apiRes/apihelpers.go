@@ -69,6 +69,24 @@ func ReturnUnauthorizedRequestFromService(message string) (int, ApiResponse) {
 	}
 }
 
+func ReturnUnauthorized(message string) (int, ApiResponse) {
+	return http.StatusUnauthorized, ApiResponse{
+		Status:  false,
+		Message: message,
+		Data:    nil,
+	}
+}
+
+func ReturnNotFoundRequestFromService(message string) (int, ApiResponse) {
+	return http.StatusNotFound, ApiResponse{
+		Status:  false,
+		Message: message,
+		Data:    nil,
+	}
+}
+
+
+
 func CustomResponse(c *gin.Context, code int, data interface{}, apiName string) {
 	// log optionalParams
 	logrus.Info("API call completed : ", apiName, " | code: ", code, " | data: ", data)

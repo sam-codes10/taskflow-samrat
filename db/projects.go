@@ -1,6 +1,7 @@
 package db
 
 import (
+	"errors"
 	"taskflow-samrat/models"
 	"taskflow-samrat/resources"
 )
@@ -58,15 +59,15 @@ func GetAllProjects(ownerId string) ([]models.GetAllProjectRes, error) {
 	return projects, nil
 }
 
-func GetProjectById(projectId string) (models.GetProjectRes, error) {
+func GetProjectById(projectId string, ownerId string) (models.GetProjectRes, error) {
 	rows, err := resources.DB.Query(`
 		SELECT 
 			p.id, p.name, p.description, p.owner_id, p.created_at, p.updated_at,
 			t.id, t.title, t.description, t.status, t.priority, t.project_id, t.assignee_id, t.due_date, t.created_at, t.updated_at
 		FROM projects p
 		LEFT JOIN tasks t ON p.id = t.project_id
-		WHERE p.id = $1
-	`, projectId)
+		WHERE p.id = $1 AND p.owner_id = $2
+	`, projectId, ownerId)
 	if err != nil {
 		return models.GetProjectRes{}, err
 	}
@@ -76,37 +77,41 @@ func GetProjectById(projectId string) (models.GetProjectRes, error) {
 	var tasks []models.GetTaskRes
 
 	for rows.Next() {
-		var t models.GetTaskRes
+		var task models.GetTaskRes
 		err := rows.Scan(
 			&project.ID, &project.Name, &project.Description, &project.OwnerId, &project.CreatedAt, &project.UpdatedAt,
-			&t.ID, &t.Title, &t.Description, &t.Status, &t.Priority, &t.ProjectId, &t.AssigneeId, &t.DueDate, &t.CreatedAt, &t.UpdatedAt,
+			&task.ID, &task.Title, &task.Description, &task.Status, &task.Priority, &task.ProjectId, &task.AssigneeId, &task.DueDate, &task.CreatedAt, &task.UpdatedAt,
 		)
 		if err != nil {
 			return models.GetProjectRes{}, err
 		}
-		tasks = append(tasks, t)
+		tasks = append(tasks, task)
 	}
 
 	project.Tasks = tasks
 	return project, nil
 }
 
-func UpdateProjectById(projectId string, payload models.UpdateProjectReq) (models.GetProjectRes, error) {
-	_, err := resources.DB.Exec("UPDATE projects SET name = $1, description = $2, updated_at = NOW() WHERE id = $3", payload.Name, payload.Description, projectId)
+func UpdateProjectById(projectId string, payload models.UpdateProjectReq, ownerId string) (models.GetProjectRes, error) {
+	_, err := resources.DB.Exec("UPDATE projects SET name = $1, description = $2, updated_at = NOW() WHERE id = $3 AND owner_id = $4", payload.Name, payload.Description, projectId, ownerId)
 	if err != nil {
 		return models.GetProjectRes{}, err
 	}
 
-	return GetProjectById(projectId)
+	return GetProjectById(projectId, ownerId)
 }
 
-func DeleteProjectById(projectId string) (bool, error) {
+func DeleteProjectById(projectId, ownerId string) (bool, error) {
 	query := `
-		DELETE FROM projects WHERE id = $1
+		DELETE FROM projects WHERE id = $1 AND owner_id = $2
 	`
-	_, err := resources.DB.Exec(query, projectId)
+	result, err := resources.DB.Exec(query, projectId, ownerId)
 	if err != nil {
 		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+	if rowsAffected == 0 {
+		return false, errors.New("project not found")
 	}
 
 	return true, nil

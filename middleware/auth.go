@@ -3,6 +3,7 @@ package middleware
 import (
 	"errors"
 	"os"
+	apihelpers "taskflow-samrat/apiRes"
 	"taskflow-samrat/models"
 	"time"
 
@@ -19,6 +20,39 @@ func NoAuthMiddleWare() gin.HandlerFunc {
 		}
 		c.Set("reqHeader", reqHeader)
 		c.Next()
+	}
+}
+
+func UserAuthMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var reqH models.RequestHeader
+
+		cRH, _ := c.Get("reqH")
+		reqH, _ = (cRH).(models.RequestHeader)
+
+		token := reqH.Authorization
+		if token == "" {
+			code, res := apihelpers.ReturnUnauthorized("Authorization token is required")
+			c.JSON(code, res)
+			c.Abort()
+			return
+		}
+
+		claims, err := parseJWT(token)
+		if err != nil {
+			code, res := apihelpers.ReturnUnauthorized("Invalid authorization token")
+			c.JSON(code, res)
+			c.Abort()
+			return
+		}
+
+		reqH.Email = claims.Email
+		reqH.UserId = claims.UserID
+		reqH.ReqId = uuid.NewString()
+
+		c.Set("reqH", reqH)
+		c.Next()
+
 	}
 }
 

@@ -22,7 +22,7 @@ func InitRouters() *gin.Engine {
 	}
 
 	projects := r.Group("/projects")
-	// projects.Use(middleware.AuthMiddleWare())
+	 projects.Use(middleware.UserAuthMiddleware())
 	{
 		projects.POST("/", controllers.CreateProject)
 		projects.GET("/", controllers.GetAllProjects)

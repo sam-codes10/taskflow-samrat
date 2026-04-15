@@ -6,6 +6,7 @@ import (
 	"taskflow-samrat/services"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 // @Tags projects
@@ -19,13 +20,16 @@ import (
 // @Router /projects [post]
 func CreateProject(c *gin.Context) {
 	var payload models.CreateProjectReq
+	cRH, _ := c.Get("reqH")
+	reqH := cRH.(models.RequestHeader)
 	err := c.ShouldBindJSON(&payload)
 	if err != nil {
+		logrus.Error("failed to decode payload : "+err.Error(), " | reqId: "+reqH.ReqId)
 		apihelpers.SendBadRequestFromController(c, "Invalid request payload")
 		return
 	}
 
-	statusCode, response := services.CreateProject(payload, c.Value("userId").(string))
+	statusCode, response := services.CreateProject(payload, reqH.UserId)
 	apiName := "/projects [POST]"
 	apihelpers.CustomResponse(c, statusCode, response, apiName)
 }
@@ -39,7 +43,9 @@ func CreateProject(c *gin.Context) {
 // @Failure 500 {object} apihelpers.ApiResponse
 // @Router /projects [get]
 func GetAllProjects(c *gin.Context) {
-	statusCode, response := services.GetAllProjects(c.Value("userId").(string))
+	cRH, _ := c.Get("reqH")
+	reqH := cRH.(models.RequestHeader)
+	statusCode, response := services.GetAllProjects(reqH.UserId)
 	apiName := "/projects [GET]"
 	apihelpers.CustomResponse(c, statusCode, response, apiName)
 }
@@ -53,8 +59,10 @@ func GetAllProjects(c *gin.Context) {
 // @Failure 500 {object} apihelpers.ApiResponse
 // @Router /projects/:projectId [get]
 func GetProjectById(c *gin.Context) {
+	cRH, _ := c.Get("reqH")
+	reqH := cRH.(models.RequestHeader)
 	projectId := c.Param("projectId")
-	statusCode, response := services.GetProjectById(projectId)
+	statusCode, response := services.GetProjectById(projectId, reqH.UserId)
 	apiName := "/projects/:projectId [GET]"
 	apihelpers.CustomResponse(c, statusCode, response, apiName)
 }
@@ -68,6 +76,8 @@ func GetProjectById(c *gin.Context) {
 // @Failure 500 {object} apihelpers.ApiResponse
 // @Router /projects/:projectId [patch]
 func UpdateProjectById(c *gin.Context) {
+	cRH, _ := c.Get("reqH")
+	reqH := cRH.(models.RequestHeader)
 	projectId := c.Param("projectId")
 	var payload models.UpdateProjectReq
 	err := c.ShouldBindJSON(&payload)
@@ -76,7 +86,7 @@ func UpdateProjectById(c *gin.Context) {
 		return
 	}
 
-	statusCode, response := services.UpdateProjectById(projectId, payload)
+	statusCode, response := services.UpdateProjectById(projectId, payload, reqH.UserId)
 	apiName := "/projects/:projectId [PATCH]"
 	apihelpers.CustomResponse(c, statusCode, response, apiName)
 }
@@ -90,8 +100,10 @@ func UpdateProjectById(c *gin.Context) {
 // @Failure 500 {object} apihelpers.ApiResponse
 // @Router /projects/:projectId [delete]
 func DeleteProjectById(c *gin.Context) {
+	cRH, _ := c.Get("reqH")
+	reqH := cRH.(models.RequestHeader)
 	projectId := c.Param("projectId")
-	statusCode, response := services.DeleteProjectById(projectId)
+	statusCode, response := services.DeleteProjectById(projectId, reqH.UserId)
 	apiName := "/projects/:projectId [DELETE]"
 	apihelpers.CustomResponse(c, statusCode, response, apiName)
 }
