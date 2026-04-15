@@ -9,10 +9,11 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// @Tag task
+// @Tags task
 // @Description Create Task using project id
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Authorization Header"
 // @Param payload body models.CreateAndUpdateTaskReq true "Create Task Payload"
 // @Success 200 {object} apihelpers.ApiResponse
 // @Failure 400 {object} apihelpers.ApiResponse
@@ -33,10 +34,11 @@ func CreateTaskUsingProjectId(c *gin.Context) {
 	apihelpers.CustomResponse(c, code, res, apiName)
 }
 
-// @Tag task
+// @Tags task
 // @Description Get All Tasks By Project Id
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Authorization Header"
 // @Param projectId path string true "Project ID"
 // @Param status query string false "Status"
 // @Param assignee_id query string false "Assignee ID"
@@ -56,35 +58,37 @@ func GetAllTasksByProjectId(c *gin.Context) {
 	apihelpers.CustomResponse(c, code, res, apiName)
 }
 
-// @Tag task
+// @Tags task
 // @Description Get Task By Id
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Authorization Header"
 // @Param taskId path string true "Task ID"
 // @Success 200 {object} apihelpers.ApiResponse
 // @Failure 400 {object} apihelpers.ApiResponse
 // @Failure 500 {object} apihelpers.ApiResponse
-// @Router /projects/:projectId/tasks/:taskId [get]
+// @Router /tasks/:taskId [get]
 func GetTaskById(c *gin.Context) {
 	cRH, _ := c.Get("reqH")
 	reqH := cRH.(models.RequestHeader)
 
 	taskId := c.Param("taskId")
 	code, res := services.GetTaskById(taskId, reqH.UserId)
-	apiName := "/projects/:projectId/tasks/:taskId [GET]"
+	apiName := "/tasks/:taskId [GET]"
 	apihelpers.CustomResponse(c, code, res, apiName)
 }
 
-// @Tag task
+// @Tags task
 // @Description Update Task By Id
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Authorization Header"
 // @Param taskId path string true "Task ID"
 // @Param payload body models.CreateAndUpdateTaskReq true "Update Task Payload"
 // @Success 200 {object} apihelpers.ApiResponse
 // @Failure 400 {object} apihelpers.ApiResponse
 // @Failure 500 {object} apihelpers.ApiResponse
-// @Router /projects/:projectId/tasks/:taskId [patch]
+// @Router /tasks/:taskId [patch]
 func UpdateTaskById(c *gin.Context) {
 	cRH, _ := c.Get("reqH")
 	reqH := cRH.(models.RequestHeader)
@@ -97,25 +101,26 @@ func UpdateTaskById(c *gin.Context) {
 		return
 	}
 	code, res := services.UpdateTaskById(taskId, task, reqH.UserId)
-	apiName := "/projects/:projectId/tasks/:taskId [PATCH]"
+	apiName := "/tasks/:taskId [PATCH]"
 	apihelpers.CustomResponse(c, code, res, apiName)
 }
 
-// @Tag task
+// @Tags task
 // @Description Delete Task By Id
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Authorization Header"
 // @Param taskId path string true "Task ID"
 // @Success 200 {object} apihelpers.ApiResponse
 // @Failure 400 {object} apihelpers.ApiResponse
 // @Failure 500 {object} apihelpers.ApiResponse
-// @Router /projects/:projectId/tasks/:taskId [delete]
+// @Router /tasks/:taskId [delete]
 func DeleteTaskById(c *gin.Context) {
 	cRH, _ := c.Get("reqH")
 	reqH := cRH.(models.RequestHeader)
 
 	taskId := c.Param("taskId")
 	code, res := services.DeleteTaskById(taskId, reqH.UserId)
-	apiName := "/projects/:projectId/tasks/:taskId [DELETE]"
+	apiName := "/tasks/:taskId [DELETE]"
 	apihelpers.CustomResponse(c, code, res, apiName)
 }

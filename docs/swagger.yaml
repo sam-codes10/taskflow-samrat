@@ -145,6 +145,12 @@ paths:
       consumes:
       - application/json
       description: Get All Projects
+      parameters:
+      - description: Authorization Header
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -167,6 +173,11 @@ paths:
       - application/json
       description: Create Project
       parameters:
+      - description: Authorization Header
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Create Project Payload
         in: body
         name: payload
@@ -195,6 +206,12 @@ paths:
       consumes:
       - application/json
       description: Delete Project By Id
+      parameters:
+      - description: Authorization Header
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -216,6 +233,12 @@ paths:
       consumes:
       - application/json
       description: Get Project By Id
+      parameters:
+      - description: Authorization Header
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -237,6 +260,12 @@ paths:
       consumes:
       - application/json
       description: Update Project By Id
+      parameters:
+      - description: Authorization Header
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -260,6 +289,11 @@ paths:
       - application/json
       description: Get All Tasks By Project Id
       parameters:
+      - description: Authorization Header
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Project ID
         in: path
         name: projectId
@@ -288,11 +322,18 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/apihelpers.ApiResponse'
+      tags:
+      - task
     post:
       consumes:
       - application/json
       description: Create Task using project id
       parameters:
+      - description: Authorization Header
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Create Task Payload
         in: body
         name: payload
@@ -314,12 +355,19 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/apihelpers.ApiResponse'
-  /projects/:projectId/tasks/:taskId:
+      tags:
+      - task
+  /tasks/:taskId:
     delete:
       consumes:
       - application/json
       description: Delete Task By Id
       parameters:
+      - description: Authorization Header
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Task ID
         in: path
         name: taskId
@@ -340,11 +388,18 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/apihelpers.ApiResponse'
+      tags:
+      - task
     get:
       consumes:
       - application/json
       description: Get Task By Id
       parameters:
+      - description: Authorization Header
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Task ID
         in: path
         name: taskId
@@ -365,11 +420,18 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/apihelpers.ApiResponse'
+      tags:
+      - task
     patch:
       consumes:
       - application/json
       description: Update Task By Id
       parameters:
+      - description: Authorization Header
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Task ID
         in: path
         name: taskId
@@ -396,4 +458,6 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/apihelpers.ApiResponse'
+      tags:
+      - task
 swagger: "2.0"

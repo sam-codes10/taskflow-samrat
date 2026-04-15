@@ -147,6 +147,15 @@ const docTemplate = `{
                 "tags": [
                     "projects"
                 ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -180,6 +189,13 @@ const docTemplate = `{
                     "projects"
                 ],
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Create Project Payload",
                         "name": "payload",
@@ -224,6 +240,15 @@ const docTemplate = `{
                 "tags": [
                     "projects"
                 ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -255,6 +280,15 @@ const docTemplate = `{
                 ],
                 "tags": [
                     "projects"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
                 ],
                 "responses": {
                     "200": {
@@ -288,6 +322,15 @@ const docTemplate = `{
                 "tags": [
                     "projects"
                 ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -319,7 +362,17 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "task"
+                ],
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Project ID",
@@ -369,7 +422,17 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "task"
+                ],
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Create Task Payload",
                         "name": "payload",
@@ -402,7 +465,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/projects/:projectId/tasks/:taskId": {
+        "/tasks/:taskId": {
             "get": {
                 "description": "Get Task By Id",
                 "consumes": [
@@ -411,7 +474,17 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "task"
+                ],
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Task ID",
@@ -449,7 +522,17 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "task"
+                ],
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Task ID",
@@ -487,7 +570,17 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "task"
+                ],
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Task ID",

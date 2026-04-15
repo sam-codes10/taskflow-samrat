@@ -136,6 +136,15 @@
                 "tags": [
                     "projects"
                 ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -169,6 +178,13 @@
                     "projects"
                 ],
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Create Project Payload",
                         "name": "payload",
@@ -213,6 +229,15 @@
                 "tags": [
                     "projects"
                 ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -244,6 +269,15 @@
                 ],
                 "tags": [
                     "projects"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
                 ],
                 "responses": {
                     "200": {
@@ -277,6 +311,15 @@
                 "tags": [
                     "projects"
                 ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -308,7 +351,17 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "task"
+                ],
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Project ID",
@@ -358,7 +411,17 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "task"
+                ],
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Create Task Payload",
                         "name": "payload",
@@ -391,7 +454,7 @@
                 }
             }
         },
-        "/projects/:projectId/tasks/:taskId": {
+        "/tasks/:taskId": {
             "get": {
                 "description": "Get Task By Id",
                 "consumes": [
@@ -400,7 +463,17 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "task"
+                ],
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Task ID",
@@ -438,7 +511,17 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "task"
+                ],
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Task ID",
@@ -476,7 +559,17 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "task"
+                ],
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization Header",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Task ID",

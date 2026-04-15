@@ -13,6 +13,7 @@ import (
 // @Description Create Project
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Authorization Header"
 // @Param payload body models.CreateProjectReq true "Create Project Payload"
 // @Success 200 {object} apihelpers.ApiResponse
 // @Failure 400 {object} apihelpers.ApiResponse
@@ -38,6 +39,7 @@ func CreateProject(c *gin.Context) {
 // @Description Get All Projects
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Authorization Header"
 // @Success 200 {object} apihelpers.ApiResponse
 // @Failure 400 {object} apihelpers.ApiResponse
 // @Failure 500 {object} apihelpers.ApiResponse
@@ -54,6 +56,7 @@ func GetAllProjects(c *gin.Context) {
 // @Description Get Project By Id
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Authorization Header"
 // @Success 200 {object} apihelpers.ApiResponse
 // @Failure 400 {object} apihelpers.ApiResponse
 // @Failure 500 {object} apihelpers.ApiResponse
@@ -71,6 +74,7 @@ func GetProjectById(c *gin.Context) {
 // @Description Update Project By Id
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Authorization Header"
 // @Success 200 {object} apihelpers.ApiResponse
 // @Failure 400 {object} apihelpers.ApiResponse
 // @Failure 500 {object} apihelpers.ApiResponse
@@ -95,6 +99,7 @@ func UpdateProjectById(c *gin.Context) {
 // @Description Delete Project By Id
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Authorization Header"
 // @Success 200 {object} apihelpers.ApiResponse
 // @Failure 400 {object} apihelpers.ApiResponse
 // @Failure 500 {object} apihelpers.ApiResponse
