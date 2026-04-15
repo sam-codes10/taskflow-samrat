@@ -9,7 +9,7 @@ import (
 	"github.com/lib/pq"
 )
 
-func RegisterUser(payload models.UserRegister) (int, apihelpers.ApiResponse) {
+func RegisterUser(payload models.UserRegister) (int, interface{}) {
 	var res models.UserAuthRes
 	dbRes, err := db.RegisterUser(payload)
 	if err != nil {
@@ -29,7 +29,7 @@ func RegisterUser(payload models.UserRegister) (int, apihelpers.ApiResponse) {
 	return apihelpers.ReturnSuccessResponseFromService("user registered successfully", res)
 }
 
-func LoginUser(payload models.UserLogin) (int, apihelpers.ApiResponse) {
+func LoginUser(payload models.UserLogin) (int, interface{}) {
 	var res models.UserAuthRes
 	allowed, dbRes, err := db.LoginUser(payload)
 	if err != nil && err.Error() != "invalid credentials" {

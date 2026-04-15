@@ -7,7 +7,7 @@ import (
 	"taskflow-samrat/models"
 )
 
-func CreateProject(payload models.CreateProjectReq, ownerId string) (int, apihelpers.ApiResponse) {
+func CreateProject(payload models.CreateProjectReq, ownerId string) (int, interface{}) {
 	dbRes, err := db.CreateProject(payload, ownerId)
 	if err != nil {
 		return apihelpers.ReturnInternalServerErrorFromService("unable to create project due to error " + err.Error())
@@ -19,7 +19,7 @@ func CreateProject(payload models.CreateProjectReq, ownerId string) (int, apihel
 	}
 }
 
-func GetAllProjects(ownerId string) (int, apihelpers.ApiResponse) {
+func GetAllProjects(ownerId string) (int, interface{}) {
 	dbRes, err := db.GetAllProjects(ownerId)
 	if err != nil {
 		return apihelpers.ReturnInternalServerErrorFromService("unable to get all projects due to error " + err.Error())
@@ -31,7 +31,7 @@ func GetAllProjects(ownerId string) (int, apihelpers.ApiResponse) {
 	}
 }
 
-func GetProjectById(projectId string, ownerId string) (int, apihelpers.ApiResponse) {
+func GetProjectById(projectId string, ownerId string) (int, interface{}) {
 	dbRes, err := db.GetProjectById(projectId, ownerId)
 	if err != nil {
 		return apihelpers.ReturnInternalServerErrorFromService("unable to get project by id due to error " + err.Error())
@@ -43,7 +43,7 @@ func GetProjectById(projectId string, ownerId string) (int, apihelpers.ApiRespon
 	}
 }
 
-func UpdateProjectById(projectId string, payload models.UpdateProjectReq, ownerId string) (int, apihelpers.ApiResponse) {
+func UpdateProjectById(projectId string, payload models.UpdateProjectReq, ownerId string) (int, interface{}) {
 	dbRes, err := db.UpdateProjectById(projectId, payload, ownerId)
 	if err != nil {
 		return apihelpers.ReturnInternalServerErrorFromService("unable to update project by id due to error " + err.Error())
@@ -55,7 +55,7 @@ func UpdateProjectById(projectId string, payload models.UpdateProjectReq, ownerI
 	}
 }
 
-func DeleteProjectById(projectId , ownerId string) (int, apihelpers.ApiResponse) {
+func DeleteProjectById(projectId , ownerId string) (int, interface{}) {
 	dbRes, err := db.DeleteProjectById(projectId, ownerId)
 	if err != nil {
 		return apihelpers.ReturnInternalServerErrorFromService("unable to delete project by id due to error " + err.Error())

@@ -24,7 +24,7 @@ func Register(c *gin.Context) {
 	reqH := c.MustGet("reqH").(models.RequestHeader)
 	if err := c.ShouldBindJSON(&payload); err != nil {
 		logrus.Error("failed to decode payload : "+err.Error(), " | reqId: "+reqH.ReqId)
-		apihelpers.SendBadRequestFromController(c, "failed to decode payload : "+err.Error())
+		apihelpers.HandleValidationError(c, err)
 		return
 	}
 
@@ -32,7 +32,7 @@ func Register(c *gin.Context) {
 	err := validate.Struct(payload)
 	if err != nil {
 		logrus.Error("failed to validate payload : "+err.Error(), " | reqId: "+reqH.ReqId)
-		apihelpers.SendBadRequestFromController(c, "failed to validate payload : "+err.Error())
+		apihelpers.HandleValidationError(c, err)
 		return
 	}
 
@@ -56,7 +56,7 @@ func Login(c *gin.Context) {
 	reqH := c.MustGet("reqH").(models.RequestHeader)
 	if err := c.ShouldBindJSON(&payload); err != nil {
 		logrus.Error("failed to decode payload : "+err.Error(), " | reqId: "+reqH.ReqId)
-		apihelpers.SendBadRequestFromController(c, "failed to decode payload : "+err.Error())
+		apihelpers.HandleValidationError(c, err)
 		return
 	}
 
@@ -64,7 +64,7 @@ func Login(c *gin.Context) {
 	err := validate.Struct(payload)
 	if err != nil {
 		logrus.Error("failed to validate payload : "+err.Error(), " | reqId: "+reqH.ReqId)
-		apihelpers.SendBadRequestFromController(c, "failed to validate payload : "+err.Error())
+		apihelpers.HandleValidationError(c, err)
 		return
 	}
 

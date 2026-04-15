@@ -1,0 +1,15 @@
+.git
+.gitignore
+.env
+.idea
+.vscode
+vendor/
+tmp/
+*.exe
+*.o
+*.a
+*.so
+main
+taskflow
+# macOS specific
+.DS_Store

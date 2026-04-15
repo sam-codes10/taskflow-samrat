@@ -6,7 +6,7 @@ import (
 	"taskflow-samrat/models"
 )
 
-func CreateTaskUsingProjectId(task models.CreateAndUpdateTaskReq, projectId, ownerId string) (int, apihelpers.ApiResponse) {
+func CreateTaskUsingProjectId(task models.CreateAndUpdateTaskReq, projectId, ownerId string) (int, interface{}) {
 	valid, err := db.ValidateProjectIdAndOwnerId(projectId, ownerId)
 	if err != nil {
 		return apihelpers.ReturnInternalServerErrorFromService("unable to validate project id and owner id due to error " + err.Error())
@@ -21,7 +21,7 @@ func CreateTaskUsingProjectId(task models.CreateAndUpdateTaskReq, projectId, own
 	return apihelpers.ReturnSuccessResponseFromService("Task created successfully", res)
 }
 
-func GetAllTasksByProjectId(projectId, status, assignee_id string, ownerId string) (int, apihelpers.ApiResponse) {
+func GetAllTasksByProjectId(projectId, status, assignee_id string, ownerId string) (int, interface{}) {
 	valid, err := db.ValidateProjectIdAndOwnerId(projectId, ownerId)
 	if err != nil {
 		return apihelpers.ReturnInternalServerErrorFromService("unable to validate project id and owner id due to error " + err.Error())
@@ -36,7 +36,7 @@ func GetAllTasksByProjectId(projectId, status, assignee_id string, ownerId strin
 	return apihelpers.ReturnSuccessResponseFromService("All tasks fetched successfully", res)
 }
 
-func GetTaskById(taskId string, ownerId string) (int, apihelpers.ApiResponse) {
+func GetTaskById(taskId string, ownerId string) (int, interface{}) {
 	valid, err := db.ValidateTaskIdAndOwnerId(taskId, ownerId)
 	if err != nil {
 		return apihelpers.ReturnInternalServerErrorFromService("unable to validate task id and owner id due to error " + err.Error())
@@ -51,7 +51,7 @@ func GetTaskById(taskId string, ownerId string) (int, apihelpers.ApiResponse) {
 	return apihelpers.ReturnSuccessResponseFromService("Task fetched successfully", res)
 }
 
-func UpdateTaskById(taskId string, task models.CreateAndUpdateTaskReq, ownerId string) (int, apihelpers.ApiResponse) {
+func UpdateTaskById(taskId string, task models.CreateAndUpdateTaskReq, ownerId string) (int, interface{}) {
 	valid, err := db.ValidateTaskIdAndOwnerId(taskId, ownerId)
 	if err != nil {
 		return apihelpers.ReturnInternalServerErrorFromService("unable to validate task id and owner id due to error " + err.Error())
@@ -66,7 +66,7 @@ func UpdateTaskById(taskId string, task models.CreateAndUpdateTaskReq, ownerId s
 	return apihelpers.ReturnSuccessResponseFromService("Task updated successfully", res)
 }
 
-func DeleteTaskById(taskId string, ownerId string) (int, apihelpers.ApiResponse) {
+func DeleteTaskById(taskId string, ownerId string) (int, interface{}) {
 	valid, err := db.ValidateTaskIdAndOwnerId(taskId, ownerId)
 	if err != nil {
 		return apihelpers.ReturnInternalServerErrorFromService("unable to validate task id and owner id due to error " + err.Error())

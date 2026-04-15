@@ -35,14 +35,14 @@ func CreateTaskUsingProjectId(c *gin.Context) {
 	var task models.CreateAndUpdateTaskReq
 	if err := c.ShouldBindJSON(&task); err != nil {
 		logrus.Error("failed to decode payload : "+err.Error(), " | reqId: "+reqH.ReqId)
-		apihelpers.SendBadRequestFromController(c, "Invalid request payload")
+		apihelpers.HandleValidationError(c, err)
 		return
 	}
 
 	validator := validator.New()
 	if err := validator.Struct(task); err != nil {
 		logrus.Error("failed to validate payload : "+err.Error(), " | reqId: "+reqH.ReqId)
-		apihelpers.SendBadRequestFromController(c, "Invalid request payload")
+		apihelpers.HandleValidationError(c, err)
 		return
 	}
 
@@ -114,7 +114,7 @@ func UpdateTaskById(c *gin.Context) {
 	var task models.CreateAndUpdateTaskReq
 	if err := c.ShouldBindJSON(&task); err != nil {
 		logrus.Error("failed to decode payload : "+err.Error(), " | reqId: "+reqH.ReqId)
-		apihelpers.SendBadRequestFromController(c, "Invalid request payload")
+		apihelpers.HandleValidationError(c, err)
 		return
 	}
 
@@ -127,7 +127,7 @@ func UpdateTaskById(c *gin.Context) {
 	validator := validator.New()
 	if err := validator.Struct(task); err != nil {
 		logrus.Error("failed to validate payload : "+err.Error(), " | reqId: "+reqH.ReqId)
-		apihelpers.SendBadRequestFromController(c, "Invalid request payload")
+		apihelpers.HandleValidationError(c, err)
 		return
 	}
 

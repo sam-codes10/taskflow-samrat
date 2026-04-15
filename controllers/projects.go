@@ -26,7 +26,7 @@ func CreateProject(c *gin.Context) {
 	err := c.ShouldBindJSON(&payload)
 	if err != nil {
 		logrus.Error("failed to decode payload : "+err.Error(), " | reqId: "+reqH.ReqId)
-		apihelpers.SendBadRequestFromController(c, "Invalid request payload")
+		apihelpers.HandleValidationError(c, err)
 		return
 	}
 
@@ -89,7 +89,7 @@ func UpdateProjectById(c *gin.Context) {
 	var payload models.UpdateProjectReq
 	err := c.ShouldBindJSON(&payload)
 	if err != nil {
-		apihelpers.SendBadRequestFromController(c, "Invalid request payload")
+		apihelpers.HandleValidationError(c, err)
 		return
 	}
 
