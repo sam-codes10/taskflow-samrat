@@ -19,7 +19,11 @@ To run this application seamlessly, you only need Docker installed.
 ```bash
 git clone https://github.com/sam-codes10/taskflow-samrat.git
 cd taskflow-samrat
+
+# Create your local environment file
 cp .env.example .env
+# Optional: Open .env and customize DB passwords/JWT secrets if desired. Both the database and API containers automatically sync to whatever values you set!
+
 docker compose up --build -d
 ```
 The API spins up silently in the background at `http://localhost:8080`.
@@ -102,4 +106,6 @@ curl -X DELETE http://localhost:8080/tasks/<TASK_ID> -H "Authorization: Bearer <
 
 ## 7. What I'd Do With More Time
 While prioritizing strict scope isolation and stable scaling, given excessive resource capacities, the system would immediately scale adding Redis.
-*   **Redis Caching Execution:** We'd cache repetitive identical database read queries (ie: Global Workspace `GET /projects`) into an ultra-fast Redis pipeline slashing generic traffic IO onto PostgreSQL allowing the standard Database pool to natively target complex analytical tasks and task manipulations.
+*   **Managed Redis Caching Execution:** We'd apply managed caching layer using Redis to cache repetitive identical database read queries (ie: Global Workspace `GET /projects`) into an ultra-fast Redis pipeline slashing generic traffic IO onto PostgreSQL allowing the standard Database pool to natively target complex analytical tasks and task manipulations.
+* **Rate Limiting** We'd apply one of rate limiting algos most probably leacky bucket to handle traffic spikes and prevent abuse.
+* **Apply cron-job** We'd apply cron-job to send notifications to users about their tasks due date and reminders.
